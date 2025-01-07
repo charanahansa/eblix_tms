@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Tasks\TaskController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -18,3 +20,9 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::middleware('auth')->group(function () {
+    Route::get('/task', [TaskController::class, 'index'])->name('task');
+    Route::post('/task-save', [TaskController::class, 'saveTask'])->name('task.save');
+    Route::get('/task-list', [TaskController::class, 'getTaskList'])->name('task.list');
+});

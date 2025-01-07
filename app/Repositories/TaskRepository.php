@@ -2,13 +2,35 @@
 
 namespace App\Repositories;
 
-class TaskRepository
-{
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
+use App\Contracts\EntityInterface;
+use App\Contracts\TransactionInterface;
+
+use App\Models\Task;
+class TaskRepository implements EntityInterface, TransactionInterface {
+
+    public function save($tblTask){
+
+        $savedTask = Task::updateOrCreate(
+                            ['id' => $tblTask['id'] ],
+                            $tblTask
+                        );
+
+        return $savedTask;
     }
+
+    public function findById($id) {
+
+        return Task::find($id);
+    }
+
+    public function getAll() {
+
+        return Task::all();
+    }
+
+    public function getTransactions($fromDate, $toDate){
+
+        return Task::whereBetween('task_date', [$fromDate, $toDate])->get();
+    }
+
 }
