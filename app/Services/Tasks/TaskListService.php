@@ -2,6 +2,8 @@
 
 namespace App\Services\Tasks;
 
+use Illuminate\Support\Facades\Auth;
+
 use App\Models\User;
 use App\Repositories\TaskRepository;
 use App\Enum\TaskStatus;
@@ -74,6 +76,13 @@ class TaskListService {
         }
 
         return $listOfTask;
+    }
+
+    public function generateAuthenticatedUserTasks(){
+
+        $listOfAllTask = $this->objTaskRepository->getAll();
+
+        return $listOfAllTask->where('user_id', Auth::user()->id);
     }
 
 }

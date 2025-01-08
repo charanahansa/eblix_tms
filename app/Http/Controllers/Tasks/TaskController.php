@@ -11,6 +11,7 @@ use App\Enum\TaskStatus;
 use App\Models\Task;
 use App\Services\Tasks\TaskService;
 
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 class TaskController extends Controller {
@@ -36,11 +37,20 @@ class TaskController extends Controller {
 
         $task = $this->objTaskService->save($request);
         $task->due_date = Carbon::parse($task->due_date)->format('Y/m/d');
-
         $statuses = TaskStatus::cases();
 
-        session()->flash('success', 'Task created successfully!');
-        return view('Tasks.Task', compact('task', 'statuses'));
+        $currentUrl = url()->current();
+
+        $isApi = Str::contains($currentUrl, "api");
+        if($isApi){
+
+            return response()->json($task, 201);
+        }else{
+
+            session()->flash('success', 'Task created successfully!');
+            return view('Tasks.Task', compact('task', 'statuses'));
+        }
+
     }
 
 }

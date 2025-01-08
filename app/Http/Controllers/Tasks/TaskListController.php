@@ -51,4 +51,9 @@ class TaskListController extends Controller {
         return view('Tasks.Task', compact('task', 'statuses'));
     }
 
+    public function getAuthenticatedUserTasks(){
+
+        return $this->objTaskListService->generateAuthenticatedUserTasks();
+    }
+
 }
