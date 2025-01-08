@@ -6,7 +6,7 @@
 @section('body')
 
 <div class="container-fluid mt-3">
-    <form method="post"  action="{{route('task.list.search')}}">
+    <form method="post"  action="{{route('report.generate')}}">
 
         @csrf
 
@@ -72,45 +72,10 @@
                                 <div class="row mb-2">
                                     <label for="" class="col-10 col-form-label-sm"></label>
                                     <div class="col-2">
-                                        <input type="submit" name="submit" id="submit" class="btn btn-primary btn-sm w-100" value="Search">
+                                        <input type="submit" name="submit" id="submit" class="btn btn-danger btn-sm w-100" value="Generate">
                                     </div>
                                 </div>
 
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-12 col-md-12">
-                                <div class="table-responsive">
-                                    <table class="table table-sm table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th style="width: 5%;">Task ID</th>
-                                                <th style="width: 10%;">Date</th>
-                                                <th style="width: 50%;">Title</th>
-                                                <th style="width: 10%;">Due Date</th>
-                                                <th style="width: 10%;">User</th>
-                                                <th style="width: 10%;">Status</th>
-                                                <th style="width: 5%;"></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($listOfTask as $rowKey => $rowValue)
-                                                <tr>
-                                                    <td style="width: 5%;">{{$rowValue->id}}</td>
-                                                    <td style="width: 10%;">{{$rowValue->task_date->format('Y-m-d')}}</td>
-                                                    <td style="width: 50%;">{{$rowValue->title}}</td>
-                                                    <td style="width: 10%;">{{$rowValue->due_date->format('Y-m-d')}}</td>
-                                                    <td style="width: 10%;">{{$rowValue->user->name}}</td>
-                                                    <td style="width: 10%;">{{ ucfirst($rowValue->status_id) }}</td>
-                                                    <td style="width: 10%;">
-                                                        <a href="{{ route('task.open', $rowValue->id) }}" class="btn btn-primary btn-sm w-100">Open</a>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
                             </div>
                         </div>
 

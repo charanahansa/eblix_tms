@@ -3,9 +3,7 @@
 namespace App\Services\Tasks;
 
 use App\Repositories\TaskRepository;
-
 use Illuminate\Support\Facades\Auth;
-
 use Carbon\Carbon;
 
 class TaskService {

@@ -35,7 +35,7 @@ class TaskListController extends Controller {
         $statuses = TaskStatus::cases();
         $listOfActiveUsers = User::where('active', 1)->get();
 
-        $listOfTask = $this->objTaskListService->generateReport($request);
+        $listOfTask = $this->objTaskListService->generateList($request);
 
         return view('Tasks.TaskList', compact('listOfTask', 'statuses', 'listOfActiveUsers'));
     }

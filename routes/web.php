@@ -8,6 +8,8 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Tasks\TaskController;
 use App\Http\Controllers\Tasks\TaskListController;
 
+use App\Http\Controllers\Reports\ReportController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -29,3 +31,6 @@ Route::post('/task-save', [TaskController::class, 'saveTask'])->name('task.save'
 Route::get('/task-list', [TaskListController::class, 'getTaskList'])->name('task.list');
 Route::post('/task-list-search', [TaskListController::class, 'searchTaskList'])->name('task.list.search');
 Route::get('/task/{taskId}', [TaskListController::class, 'openTask'])->name('task.open');
+
+Route::get('/report', [ReportController::class, 'index'])->name('report');
+Route::post('/report-generate', [ReportController::class, 'generateReport'])->name('report.generate');

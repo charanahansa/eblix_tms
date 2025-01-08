@@ -2,9 +2,9 @@
 
 namespace App\Services\Tasks;
 
-use App\Models\Task;
+use App\Models\User;
 use App\Repositories\TaskRepository;
-
+use App\Enum\TaskStatus;
 use Carbon\Carbon;
 
 class TaskListService {
@@ -15,38 +15,63 @@ class TaskListService {
         $this->objTaskRepository = $insTaskRepository;
     }
 
-    public function generateReport($request){
+    public function generateList($request, $withCriteria = false){
 
         $dtFromDate = Carbon::parse($request->from_date)->startOfDay();
         $dtToDate = Carbon::parse($request->to_date)->endOfDay();
 
-        $lstTaskList = $this->objTaskRepository->query();
+        $criteria = [];
+        $taskList = $this->objTaskRepository->query();
 
         if ($request->filled('from_date')) {
-            $lstTaskList->whereDate('task_date', '>=', $dtFromDate);
+
+            $criteria[] = "Date period from " . $dtFromDate->format('Y/m/d');
+            $taskList->whereDate('task_date', '>=', $dtFromDate);
         }
 
         if ($request->filled('to_date')) {
-            $lstTaskList->whereDate('task_date', '<=', $dtToDate);
+
+            $criteria[] = "to " . $dtToDate->format('Y/m/d');
+            $taskList->whereDate('task_date', '<=', $dtToDate);
         }
 
         if ($request->filled('title')) {
-            $lstTaskList->where('title', 'like', '%' . $request->title . '%');
+
+            $criteria[] = "Title contains '" . $request->title . "'";
+            $taskList->where('title', 'like', '%' . $request->title . '%');
         }
 
         if ($request->filled('status_id') && $request->status_id != 0) {
-            $lstTaskList->where('status_id', $request->status_id);
+
+            $criteria[] = "Status is '" . ucfirst(TaskStatus::getValue($request->status_id)) . "'";
+            $taskList->where('status_id', $request->status_id);
         }
 
-        if ($request->filled('status_id') && $request->status_id != 0) {
-            $lstTaskList->where('user_id', $request->status_id); // You should check the parameter's name for user_id
+        if ($request->filled('user_id') && $request->user_id != 0) {
+
+            $user = User::find($request->user_id);
+            if ($user) {
+                $criteria[] = "Assigned to '" . $user->name . "'";
+            }
+            $taskList->where('user_id', $request->user_id);
         }
 
         if ($request->filled('description')) {
-            $lstTaskList->where('description', 'like', '%' . $request->description . '%');
+
+            $criteria[] = "Description contains '" . $request->description . "'";
+            $taskList->where('description', 'like', '%' . $request->description . '%');
         }
 
-        $listOfTask = $lstTaskList->get();
+        $reportCriteria = implode(' ', $criteria);
+        $listOfTask = $taskList->get();
+
+        if($withCriteria){
+
+            return [
+                'listofTask' => $listOfTask,
+                'reportCriteria' => $reportCriteria,
+            ];
+        }
 
         return $listOfTask;
     }
