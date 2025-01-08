@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Tasks\TaskController;
+use App\Http\Controllers\Tasks\TaskListController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,8 +22,8 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::middleware('auth')->group(function () {
-    Route::get('/task', [TaskController::class, 'index'])->name('task');
-    Route::post('/task-save', [TaskController::class, 'saveTask'])->name('task.save');
-    Route::get('/task-list', [TaskController::class, 'getTaskList'])->name('task.list');
-});
+Route::get('/task', [TaskController::class, 'index'])->name('task');
+Route::post('/task-save', [TaskController::class, 'saveTask'])->name('task.save');
+Route::get('/task-list', [TaskListController::class, 'getTaskList'])->name('task.list');
+Route::post('/task-list-search', [TaskListController::class, 'searchTaskList'])->name('task.list.search');
+Route::get('/task/{taskId}', [TaskListController::class, 'openTask'])->name('task.open');

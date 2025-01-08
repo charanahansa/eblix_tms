@@ -33,7 +33,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="{{route('task')}}">Create Task</a></li>
-                                <li><a class="dropdown-item" href="#">Task List</a></li>
+                                <li><a class="dropdown-item" href="{{route('task.list')}}">Task List</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">

@@ -33,4 +33,9 @@ class TaskRepository implements EntityInterface, TransactionInterface {
         return Task::whereBetween('task_date', [$fromDate, $toDate])->get();
     }
 
+    public function query(){
+
+        return Task::query();
+    }
+
 }
