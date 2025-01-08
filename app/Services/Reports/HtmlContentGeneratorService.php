@@ -8,6 +8,7 @@ class HtmlContentGeneratorService {
 
 
         $tableBody = $this->getTableBody($data['listofTask']);
+        $imagePath = public_path('images.jpg');
 
         $htmlContent = '
                             <!DOCTYPE html>
@@ -58,17 +59,29 @@ class HtmlContentGeneratorService {
                             </head>
                             <body>
                                 <div class="container">
-                                    <h1 class="text-center text-primary">Task List</h1>
+                                    <table style="background-color : #ffffff; border: 1px solid white;">
+                                        <tr style="background-color : #ffffff; border: 1px solid white;">
+                                            <th style="width: 30%; background-color : #ffffff; border: 1px solid white;"></th>
+                                            <th style="width: 40%; background-color : #ffffff; border: 1px solid white;">
+                                                <h1 class="text-center text-primary">Task List</h1>
+                                            </th>
+                                            <th style="width: 30%; background-color : #ffffff; border: 1px solid white;">
+                                                <img src="' . $imagePath . '" alt="My Image" style="max-width: 100%; height: auto;"/>
+                                            </th>
+                                        </tr>
+                                    </table>
+
                                     <h4>' . $data['reportCriteria'] . '</h4>
+
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th style="width: 10%;">Task ID</th>
-                                                <th style="width: 15%;">Date</th>
-                                                <th style="width: 40%;">Title</th>
-                                                <th style="width: 15%;">Due Date</th>
-                                                <th style="width: 10%;">User</th>
-                                                <th style="width: 10%;">Status</th>
+                                                <td style="width: 10%;">Task ID</td>
+                                                <td style="width: 15%;">Date</td>
+                                                <td style="width: 40%;">Title</td>
+                                                <td style="width: 15%;">Due Date</td>
+                                                <td style="width: 10%;">User</td>
+                                                <td style="width: 10%;">Status</td>
                                             </tr>
                                         </thead>
                                         <tbody>
