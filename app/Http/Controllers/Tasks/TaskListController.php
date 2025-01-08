@@ -37,8 +37,18 @@ class TaskListController extends Controller {
 
         $listOfTask = $this->objTaskListService->generateReport($request);
 
-
         return view('Tasks.TaskList', compact('listOfTask', 'statuses', 'listOfActiveUsers'));
+    }
+
+    public function openTask($taskId){
+
+        if (session()->has('success')) {
+            session()->forget('success');
+        }
+
+        $task = $this->objTaskRepository->findById($taskId);
+        $statuses = TaskStatus::cases();
+        return view('Tasks.Task', compact('task', 'statuses'));
     }
 
 }

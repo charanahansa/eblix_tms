@@ -55,7 +55,7 @@
                                     <i class="fa fa-caret-down"></i>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    {{-- <li><a class="dropdown-item" href="{{route('password_reset')}}">Password Reset</a></li> --}}
+                                    <li><a class="dropdown-item" href="{{route('password_reset')}}">Password Reset</a></li>
                                     <li>
                                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                             {{ __('Logout') }}
