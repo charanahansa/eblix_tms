@@ -47,4 +47,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function findForAuth($username){
+        
+        return $this->where('username', $username)->first();
+    }
+
+    public function tasks(){
+
+        return $this->hasMany(Task::class);
+    }
 }
