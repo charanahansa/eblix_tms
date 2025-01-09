@@ -6,7 +6,7 @@
 @section('body')
 
 <div class="container-fluid mt-3">
-    <form method="post"  action="{{route('task.save')}}">
+    <form id="frmTask" method="post">
 
         @csrf
 
@@ -27,6 +27,10 @@
                                 @if (session('success'))
                                     <div class="alert alert-success">
                                         <span>{{ session('success') }}</span>
+                                    </div>
+                                @elseif( session('danger') )
+                                    <div class="alert alert-danger">
+                                        <span>{{ session('danger') }}</span>
                                     </div>
                                 @endif
 
@@ -95,10 +99,13 @@
                                 <hr>
 
                                 <div  class="row mt-2">
-                                    <div class="col-6 col-md-3 col-lg-3 col-xl-2">
-                                        <input type="submit" name="submit" id="submit" class="btn btn-primary btn-sm w-100" value="Save">
+                                    <div class="col-6 col-md2 col-lg2 col-xl-2">
+                                        <input type="submit" name="submit" id="submitSave" class="btn btn-primary btn-sm w-100" value="Save">
                                     </div>
-                                    <div class="col-6 col-md-3 col-lg-3 col-xl-2">
+                                    <div class="col-6 col-md2 col-lg2 col-xl-2">
+                                        <input type="submit" name="submit" id="submitDelete" class="btn btn-primary btn-sm w-100" value="Delete" onclick="return confirmDelete()">
+                                    </div>
+                                    <div class="col-6 col-md-2 col-lg-2 col-xl-2">
                                         <input type="button" class="btn btn-primary btn-sm w-100" value="Reset" onclick="window.location.href='{{ route('task') }}';">
                                     </div>
                                 </div>
@@ -117,5 +124,31 @@
 
     </form>
 </div>
+
+<script>
+
+    const form = document.getElementById('frmTask');
+    form.addEventListener('submit', function (event) {
+        //event.preventDefault();
+
+        if (event.submitter.id == 'submitSave') {
+
+            form.action = '{{ route('task.save') }}';
+            form.method = 'POST';
+
+        } else if (event.submitter.id == 'submitDelete') {
+
+            form.action = '{{ route('task.delete') }}';
+            form.method = 'POST';
+        }
+
+        form.submit();
+    });
+
+    function confirmDelete() {
+
+        return confirm("Are you sure you want to delete this Task Id ? ");
+    }
+</script>
 
 @endsection

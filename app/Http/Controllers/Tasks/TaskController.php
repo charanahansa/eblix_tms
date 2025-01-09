@@ -50,7 +50,41 @@ class TaskController extends Controller {
             session()->flash('success', 'Task created successfully!');
             return view('Tasks.Task', compact('task', 'statuses'));
         }
-
     }
+
+    public function deleteTask(TaskRequest $request){
+
+        $task = new Task();
+        $statuses = TaskStatus::cases();
+        $result = $this->objTaskService->delete($request);
+
+        $currentUrl = url()->current();
+        $isApi = Str::contains($currentUrl, "api");
+        if($isApi){
+
+            if($result){
+
+                return response()->json(['message' => 'Task deleted successfully'], 201);
+            }else{
+
+                return response()->json(['message' => 'Task not found'], 404);
+            }
+
+        }else{
+
+            if($result){
+
+                session()->flash('success', 'Task deleted successfully');
+                return view('Tasks.Task', compact('task', 'statuses'));
+
+            }else{
+
+                session()->flash('danger', 'Task not found');
+                return view('Tasks.Task', compact('task', 'statuses'));
+            }
+        }
+    }
+
+
 
 }

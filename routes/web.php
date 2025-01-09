@@ -26,11 +26,12 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/task', [TaskController::class, 'index'])->name('task');
-Route::post('/task-save', [TaskController::class, 'saveTask'])->name('task.save');
-Route::get('/task-list', [TaskListController::class, 'getTaskList'])->name('task.list');
-Route::post('/task-list-search', [TaskListController::class, 'searchTaskList'])->name('task.list.search');
-Route::get('/task/{taskId}', [TaskListController::class, 'openTask'])->name('task.open');
+Route::get('/task', [TaskController::class, 'index'])->middleware(['auth', 'verified'])->name('task');
+Route::post('/task-save', [TaskController::class, 'saveTask'])->middleware(['auth', 'verified'])->name('task.save');
+Route::post('/task-delete', [TaskController::class, 'deleteTask'])->middleware(['auth', 'verified'])->name('task.delete');
+Route::get('/task-list', [TaskListController::class, 'getTaskList'])->middleware(['auth', 'verified'])->name('task.list');
+Route::post('/task-list-search', [TaskListController::class, 'searchTaskList'])->middleware(['auth', 'verified'])->name('task.list.search');
+Route::get('/task/{taskId}', [TaskListController::class, 'openTask'])->middleware(['auth', 'verified'])->name('task.open');
 
-Route::get('/report', [ReportController::class, 'index'])->name('report');
-Route::post('/report-generate', [ReportController::class, 'generateReport'])->name('report.generate');
+Route::get('/report', [ReportController::class, 'index'])->middleware(['auth', 'verified'])->name('report');
+Route::post('/report-generate', [ReportController::class, 'generateReport'])->middleware(['auth', 'verified'])->name('report.generate');

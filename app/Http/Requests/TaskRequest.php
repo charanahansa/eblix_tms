@@ -23,6 +23,19 @@ class TaskRequest extends FormRequest
      */
     public function rules(): array {
 
+        if($this->submit == 'Delete'){
+            return [
+                'task_id' => [
+                                'required',
+                                function ($attribute, $value, $fail) {
+                                    if ($value === '#Auto#') {
+                                        $fail('Can not proceed cancel process.');
+                                    }
+                                }
+                            ],
+            ];
+        }
+
         return [
             'title' => 'required|string|max:50',
             'description' => 'required|string|max:500',

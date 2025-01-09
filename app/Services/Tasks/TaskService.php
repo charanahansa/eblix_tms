@@ -27,6 +27,11 @@ class TaskService {
         return $this->objTaskRepository->save($tblTask);
     }
 
+    public function delete($request){
+
+        return $this->objTaskRepository->delete($request->task_id);
+    }
+
     public function findById($taskId){
 
         return $this->objTaskRepository->findById($taskId);

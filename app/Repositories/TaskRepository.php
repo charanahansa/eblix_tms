@@ -18,6 +18,18 @@ class TaskRepository implements EntityInterface, TransactionInterface {
         return $savedTask;
     }
 
+    public function delete($taskId){
+
+        $task = Task::find($taskId);
+
+        if ($task) {
+            $task->delete();
+            return true;
+        }
+
+        return false;
+    }
+
     public function findById($id) {
 
         return Task::find($id);
