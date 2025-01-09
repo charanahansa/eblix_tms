@@ -6,7 +6,6 @@ class HtmlContentGeneratorService {
 
     public function generateContent($data){
 
-
         $tableBody = $this->getTableBody($data['listofTask']);
         $imagePath = public_path('images.jpg');
 

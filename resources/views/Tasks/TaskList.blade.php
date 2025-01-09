@@ -87,11 +87,12 @@
                                             <tr>
                                                 <th style="width: 5%;">Task ID</th>
                                                 <th style="width: 10%;">Date</th>
-                                                <th style="width: 50%;">Title</th>
+                                                <th style="width: 40%;">Title</th>
                                                 <th style="width: 10%;">Due Date</th>
                                                 <th style="width: 10%;">User</th>
                                                 <th style="width: 10%;">Status</th>
-                                                <th style="width: 5%;"></th>
+                                                <th style="width: 10%;"></th>
+                                                <th style="width: 10%;"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -99,12 +100,15 @@
                                                 <tr>
                                                     <td style="width: 5%;">{{$rowValue->id}}</td>
                                                     <td style="width: 10%;">{{$rowValue->task_date->format('Y-m-d')}}</td>
-                                                    <td style="width: 50%;">{{$rowValue->title}}</td>
+                                                    <td style="width: 40%;">{{$rowValue->title}}</td>
                                                     <td style="width: 10%;">{{$rowValue->due_date->format('Y-m-d')}}</td>
                                                     <td style="width: 10%;">{{$rowValue->user->name}}</td>
                                                     <td style="width: 10%;">{{ ucfirst($rowValue->status_id) }}</td>
                                                     <td style="width: 10%;">
                                                         <a href="{{ route('task.open', $rowValue->id) }}" class="btn btn-primary btn-sm w-100">Open</a>
+                                                    </td>
+                                                    <td style="width: 10%;">
+                                                        <a href="{{ route('task.pdf', $rowValue->id) }}" class="btn btn-danger btn-sm w-100">PDF</a>
                                                     </td>
                                                 </tr>
                                             @endforeach

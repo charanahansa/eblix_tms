@@ -9,16 +9,21 @@ use App\Http\Requests\TaskListRequest;
 use App\Enum\TaskStatus;
 use App\Repositories\TaskRepository;
 use App\Services\Tasks\TaskListService;
+use App\Services\Tasks\SinglePdfGeneratorService;
 use App\Models\User;
+
+use PDF;
 
 class TaskListController extends Controller {
 
     protected $objTaskRepository;
     protected $objTaskListService;
-    public function __construct(TaskRepository $insTaskRepository, TaskListService $insTaskListService){
+    protected $objSinglePdfGeneratorService;
+    public function __construct(TaskRepository $insTaskRepository, TaskListService $insTaskListService, SinglePdfGeneratorService $insSinglePdfGeneratorService){
 
         $this->objTaskRepository = $insTaskRepository;
         $this->objTaskListService = $insTaskListService;
+        $this->objSinglePdfGeneratorService = $insSinglePdfGeneratorService;
     }
 
     public function getTaskList(){
@@ -49,6 +54,17 @@ class TaskListController extends Controller {
         $task = $this->objTaskRepository->findById($taskId);
         $statuses = TaskStatus::cases();
         return view('Tasks.Task', compact('task', 'statuses'));
+    }
+
+    public function pdfTask($taskId){
+
+        $task = $this->objTaskRepository->findById($taskId);
+        $htmlContent = $this->objSinglePdfGeneratorService->generate($task);
+
+        $pdf = PDF::loadHTML($htmlContent)->setPaper('A4', 'landscape');
+
+        // Download the PDF
+        return $pdf->download($taskId.'.pdf');
     }
 
     public function getAuthenticatedUserTasks(){
